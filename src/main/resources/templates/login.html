@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container" id="loginContainer">
+    <h1>Inicio de Sesión</h1>
+
+    <!-- Mensaje de error para inicio de sesión fallido -->
+    <div class="error-message" th:if="${error}" th:text="${error}"></div>
+
+    <!-- Formulario de inicio de sesión -->
+    <form id="loginForm" th:action="@{/inicio}" method="post" th:object="${user}">
+        <div class="form-group">
+            <label for="username">Usuario</label>
+            <div class="input-container">
+                <input
+                        type="text"
+                        id="username"
+                        th:field="*{username}"
+                        required
+                        autocomplete="username"
+                        placeholder="Ingresa tu nombre de usuario">
+                <i class="input-icon fas fa-user"></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-container">
+                <input
+                        type="password"
+                        id="password"
+                        th:field="*{password}"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Ingresa tu contraseña">
+                <i class="input-icon fas fa-lock"></i>
+            </div>
+        </div>
+
+        <div class="remember-container">
+            <input type="checkbox" id="remember" class="remember-checkbox">
+            <span class="checkmark"></span>
+            <label for="remember" class="remember-label">Recordarme</label>
+        </div>
+
+        <button type="submit" id="loginButton">
+            Iniciar Sesión
+            <span class="loader"></span>
+        </button>
+
+        <div class="form-footer">
+            <p>¿No tienes una cuenta? <a href="#" id="registerLink">Regístrate aquí</a></p>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animación de entrada
+        const loginContainer = document.getElementById('loginContainer');
+        loginContainer.style.opacity = '0';
+        loginContainer.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            loginContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            loginContainer.style.opacity = '1';
+            loginContainer.style.transform = 'translateY(0)';
+        }, 100);
+
+        // Efecto de carga al hacer clic en el botón
+        const loginForm = document.getElementById('loginForm');
+        const loginButton = document.getElementById('loginButton');
+
+        loginForm.addEventListener('submit', function(e) {
+            // No prevenimos el envío del formulario para que funcione normalmente
+            // Solo agregamos efectos visuales
+
+            loginButton.classList.add('loading');
+            loginButton.innerHTML = 'Iniciando sesión <span class="loader"></span>';
+
+            // La página se enviará normalmente, esto es solo para efecto visual
+        });
+
+        // Efecto en los inputs
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+
+        inputs.forEach(input => {
+            // Cuando el input recibe el foco
+            input.addEventListener('focus', function() {
+                this.parentNode.parentNode.querySelector('label').style.color = '#4361ee';
+            });
+
+            // Cuando el input pierde el foco
+            input.addEventListener('blur', function() {
+                this.parentNode.parentNode.querySelector('label').style.color = '';
+            });
+        });
+
+        // Efecto para el enlace de registro (solo visual)
+        const registerLink = document.getElementById('registerLink');
+
+        registerLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('luego lo hago');
+        });
+
+        // Efecto de toggle para la contraseña (mostrar/ocultar)
+        const passwordField = document.getElementById('password');
+        const passwordIcon = passwordField.nextElementSibling;
+
+        passwordIcon.style.cursor = 'pointer';
+
+        passwordIcon.addEventListener('click', function() {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                this.classList.remove('fa-lock');
+                this.classList.add('fa-unlock');
+            } else {
+                passwordField.type = 'password';
+                this.classList.remove('fa-unlock');
+                this.classList.add('fa-lock');
+            }
+        });
+    });
+</script>
+</body>
+</html>

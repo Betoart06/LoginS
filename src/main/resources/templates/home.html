@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="container" id="homeContainer">
+    <div class="welcome-container">
+        <div class="welcome-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <h1>Bienvenido</h1>
+
+        <!-- Mensaje de bienvenida con el nombre de usuario -->
+        <p class="welcome-message">
+            ¡Hola, <span class="username-highlight" th:text="${username}">Usuario</span>!
+        </p>
+
+        <p class="success-message">
+            <i class="fas fa-shield-alt"></i> Has iniciado sesión correctamente.
+        </p>
+
+        <!-- Panel con opciones -->
+        <div class="options-panel">
+            <div class="option-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Mi Perfil</span>
+            </div>
+            <div class="option-item">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </div>
+            <div class="option-item">
+                <i class="fas fa-bell"></i>
+                <span>Notificaciones</span>
+            </div>
+            <div class="option-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Estadísticas</span>
+            </div>
+        </div>
+
+        <!-- Botón para cerrar sesión -->
+        <a th:href="@{/inicio}" id="logoutLink">
+            <button class="logout-button">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Estilos adicionales para la página de inicio */
+    .options-panel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 30px 0;
+    }
+
+    .option-item {
+        background-color: #f5f7ff;
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .option-item:hover {
+        background-color: #e8ecfd;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .option-item i {
+        font-size: 20px;
+        color: var(--primary-color);
+        margin-right: 10px;
+    }
+
+    .option-item span {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .welcome-icon {
+        animation: float 3s ease-in-out infinite;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animación de entrada
+        const homeContainer = document.getElementById('homeContainer');
+        homeContainer.style.opacity = '0';
+        homeContainer.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            homeContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            homeContainer.style.opacity = '1';
+            homeContainer.style.transform = 'translateY(0)';
+        }, 100);
+
+        // Efecto para los elementos del panel de opciones
+        const optionItems = document.querySelectorAll('.option-item');
+
+        optionItems.forEach(item => {
+            item.addEventListener('click', function() {
+
+                alert('no funciona');
+            });
+        });
+
+        // Efecto para el botón de cerrar sesión
+        const logoutLink = document.getElementById('logoutLink');
+        const logoutButton = document.querySelector('.logout-button');
+
+        logoutButton.addEventListener('mouseenter', function() {
+            this.innerHTML = '<i class="fas fa-sign-out-alt"></i> ¿Seguro?';
+        });
+
+        logoutButton.addEventListener('mouseleave', function() {
+            this.innerHTML = '<i class="fas fa-sign-out-alt"></i> Cerrar Sesión';
+        });
+    });
+</script>
+</body>
+</html>
